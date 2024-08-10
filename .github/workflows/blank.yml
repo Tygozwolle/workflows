@@ -22,8 +22,8 @@ jobs:
           token: ${{ secrets.TOKEN }}
       - name: Run a one-line script
         run: ls 
-      - name: download https://github.com/onnx/models/raw/main/validated/vision/object_detection_segmentation/faster-rcnn/model/FasterRCNN-10.onnx?download=
-        run: Invoke-WebRequest 
+      - name: download 
+        run: Invoke-WebRequest https://github.com/onnx/models/raw/main/validated/vision/object_detection_segmentation/faster-rcnn/model/FasterRCNN-10.onnx?download=
     #  - name: Download a file
    #     uses: Minionguyjpro/Download-File-Action@v1
   #      with:
