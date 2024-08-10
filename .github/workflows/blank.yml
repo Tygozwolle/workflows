@@ -28,7 +28,7 @@ jobs:
         name: Download the file
         with:
           url: ${{ secrets.ULR }} 
-          target: ./ImageRecognision/Model
+          target: /ImageRecognision/Model
         # Invoke-WebRequest
     #  - name: download 
      #   run: curl ${{ secrets.ULR }} 
