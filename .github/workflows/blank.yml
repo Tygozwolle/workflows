@@ -23,7 +23,7 @@ jobs:
       - name: Run a one-line script
         run: ls 
       - name: download 
-        run: Invoke-WebRequest ${{ secrets.ULR }} -OutFile ./ImageRecognision/Model/ 
+        run: Invoke-WebRequest ${{ secrets.ULR }} 
     #  - name: Download a file
    #     uses: Minionguyjpro/Download-File-Action@v1
   #      with:
