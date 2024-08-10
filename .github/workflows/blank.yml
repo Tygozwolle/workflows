@@ -29,7 +29,7 @@ jobs:
         name: Download the file
         with:
           url: ${{ secrets.ULR }} 
-          target: /ImageRecognision/Model
+          target: ImageRecognision/Model/
       - name: Run a one-line script
         run: ls ImageRecognision/Model
         # Invoke-WebRequest
