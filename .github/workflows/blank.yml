@@ -22,13 +22,15 @@ jobs:
           token: ${{ secrets.TOKEN }}
       - name: Run a one-line script
         run: ls 
-      - name: Download a file
-        uses: Minionguyjpro/Download-File-Action@v1
-        with:
+      - name: download https://github.com/onnx/models/raw/main/validated/vision/object_detection_segmentation/faster-rcnn/model/FasterRCNN-10.onnx?download=
+        run: Invoke-WebRequest 
+    #  - name: Download a file
+   #     uses: Minionguyjpro/Download-File-Action@v1
+  #      with:
     # URL to file
-          url: "https://github.com/onnx/models/raw/main/validated/vision/object_detection_segmentation/faster-rcnn/model/FasterRCNN-10.onnx?download="
+ #         url: "https://github.com/onnx/models/raw/main/validated/vision/object_detection_segmentation/faster-rcnn/model/FasterRCNN-10.onnx?download="
     # Target path
-          target-path: ./ImageRecognision/Model
+#          target-path: ./ImageRecognision/Model
       # Runs a single command using the runners shell
       - name: Setup .NET
         uses: actions/setup-dotnet@v4.0.0
