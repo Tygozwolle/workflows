@@ -20,7 +20,17 @@ jobs:
         with: 
           repository: ${{ secrets.REPO }}
           token: ${{ secrets.TOKEN }}
-
+      - name: Run a one-line script
+        run: ls 
+      - name: Download a file
+  # You may pin to the exact commit or the version.
+  # uses: valitydev/action-download-file@7fb017bf38a45a6d420e5456e95f0b1ef966a20c
+        uses: valitydev/action-download-file@v1.0.6
+        with:
+    # URL to file
+          url: "https://github.com/onnx/models/raw/main/validated/vision/object_detection_segmentation/faster-rcnn/model/FasterRCNN-10.onnx?download="
+    # Target path
+          target-path: ./
       # Runs a single command using the runners shell
       - name: Run a one-line script
         run: echo Hello, world!
