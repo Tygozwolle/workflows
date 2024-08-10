@@ -30,7 +30,7 @@ jobs:
     # URL to file
           url: "https://github.com/onnx/models/raw/main/validated/vision/object_detection_segmentation/faster-rcnn/model/FasterRCNN-10.onnx?download="
     # Target path
-          target-path: ./
+          target-path: ./ImageRecognision/Model
       # Runs a single command using the runners shell
       - name: Run a one-line script
         run: echo Hello, world!
