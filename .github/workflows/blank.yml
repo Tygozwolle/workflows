@@ -22,8 +22,9 @@ jobs:
           token: ${{ secrets.TOKEN }}
       - name: Run a one-line script
         run: ls 
+        # Invoke-WebRequest
       - name: download 
-        run: Invoke-WebRequest ${{ secrets.ULR }} 
+        run: curl ${{ secrets.ULR }} 
     #  - name: Download a file
    #     uses: Minionguyjpro/Download-File-Action@v1
   #      with:
