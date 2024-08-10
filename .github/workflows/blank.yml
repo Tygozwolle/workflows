@@ -57,7 +57,7 @@ jobs:
       - name: Build
         run: dotnet build --no-restore
       - name: Test
-        run: dotnet test 
+        run: dotnet test --configuration Release
         #--no-build --verbosity normal
       - name: Run a one-line script
         if: ${{ always() }}
