@@ -23,7 +23,7 @@ jobs:
           token: ${{ secrets.TOKEN }}
           ref: bug-fix-tests
       - name: Run a one-line script
-        run: ls ImageRecognision/
+        run: ls ImageRecognision/Model
       - uses: suisei-cn/actions-download-file@818d6b7dc8fe73f2f924b6241f2b1134ca1377d9 # 1.6.0
         id: downloadfile  # Remember to give an ID if you need the output filename
         name: Download the file
@@ -31,7 +31,7 @@ jobs:
           url: ${{ secrets.ULR }} 
           target: /ImageRecognision/Model
       - name: Run a one-line script
-        run: ls ImageRecognision/
+        run: ls ImageRecognision/Model
         # Invoke-WebRequest
     #  - name: download 
      #   run: curl ${{ secrets.ULR }} 
