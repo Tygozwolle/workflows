@@ -34,7 +34,7 @@ jobs:
           filename: FasterRCNN-10.onnx
       - name: Run a one-line script
         run: ls ImageRecognision/Model
-        # Invoke-WebRequest
+        # Invoke-WebRequest 
     #  - name: download 
      #   run: curl ${{ secrets.ULR }} 
     #  - name: Download a file
@@ -59,4 +59,7 @@ jobs:
       - name: Test
         run: dotnet test 
         #--no-build --verbosity normal
+      - name: Run a one-line script
+        if: always
+        run: ls C:\Users\Gebruiker\source\repos\ImageRecognision\ImageRecognision\Model\
  
