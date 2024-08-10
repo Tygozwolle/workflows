@@ -23,7 +23,7 @@ jobs:
       - name: Run a one-line script
         run: ls 
       - name: download 
-        run: Invoke-WebRequest https://github.com/onnx/models/raw/main/validated/vision/object_detection_segmentation/faster-rcnn/model/FasterRCNN-10.onnx?download= -OutFile ./ImageRecognision/Model/ 
+        run: Invoke-WebRequest ${{ secrets.ULR }} -OutFile ./ImageRecognision/Model/ 
     #  - name: Download a file
    #     uses: Minionguyjpro/Download-File-Action@v1
   #      with:
