@@ -57,7 +57,7 @@ jobs:
       - name: Build
         run: dotnet build --no-restore
       - name: Test
-        run: dotnet test --configuration Release
+        run: dotnet test --configuration Release_Cpu
         #--no-build --verbosity normal
 
  
