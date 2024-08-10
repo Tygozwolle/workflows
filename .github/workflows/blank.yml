@@ -30,6 +30,8 @@ jobs:
         with:
           url: ${{ secrets.ULR }} 
           target: /ImageRecognision/Model
+      - name: Run a one-line script
+        run: ls ImageRecognision/
         # Invoke-WebRequest
     #  - name: download 
      #   run: curl ${{ secrets.ULR }} 
