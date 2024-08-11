@@ -27,7 +27,7 @@ jobs:
         with: 
           repository: ${{ secrets.REPO }}
           token: ${{ secrets.TOKEN }}
-          ref: ${{env:INPUT_REF }}
+          ref: ${{ github.event.inputs.ref }}
       - name: Run a one-line script
         run: ls ImageRecognision/Model
       - uses: suisei-cn/actions-download-file@818d6b7dc8fe73f2f924b6241f2b1134ca1377d9 # 1.6.0
