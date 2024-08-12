@@ -15,10 +15,21 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  example_matrix:
+    strategy:
+      matrix:
+        os: [windows-latest]
+        version: [10, 12, 14]
+    runs-on: ${{ matrix.os }}
+
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: windows-latest
+    strategy:
+      matrix:
+       os: [windows-latest]
+       version: [10, 12, 14]
+    runs-on: ${{ matrix.os }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
