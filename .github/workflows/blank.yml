@@ -24,6 +24,7 @@ jobs:
        os: [windows-latest , windows-2022, windows-2019]
        version: [10, 12, 14]
        version2: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+       count: [1, 2, 3]
     runs-on: ${{ matrix.os }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
