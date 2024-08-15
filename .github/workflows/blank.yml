@@ -27,7 +27,8 @@ jobs:
      #  count: [1, 2]
       fail-fast: false
     runs-on: ${{ matrix.os }}
-
+    env:
+      NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages    
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -36,6 +37,12 @@ jobs:
           repository: ${{ secrets.REPO }}
           token: ${{ secrets.TOKEN }}
           ref: ${{ github.event.inputs.ref }}
+      - uses: actions/cache@v3
+        with:
+          path: ${{ github.workspace }}\.nuget\packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }} #hash of project files
+          restore-keys: |
+            ${{ runner.os }}-nuget-
       - name: Run a one-line script
         run: ls ImageRecognision/Model
       - uses: suisei-cn/actions-download-file@818d6b7dc8fe73f2f924b6241f2b1134ca1377d9 # 1.6.0
