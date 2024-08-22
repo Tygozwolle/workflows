@@ -120,7 +120,7 @@ jobs:
         run: dotnet build --no-restore --verbosity quiet
       - name: Test
         run: dotnet test --configuration Release_Cpu 
-        # --verbosity quiet
+          --verbosity quiet
         #--no-build --verbosity normal
 
  
