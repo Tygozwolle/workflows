@@ -17,6 +17,31 @@ on:
 jobs:
   cache:
     runs-on: windows-latest
+    env:
+      NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages    
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v4
+        with: 
+          repository: ${{ secrets.REPO }}
+          token: ${{ secrets.TOKEN }}
+          ref: ${{ github.event.inputs.ref }}
+      - uses: actions/cache@v3
+        with:
+          path: ${{ github.workspace }}\.nuget\packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }} #hash of project files
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4.0.0
+        with:
+          dotnet-version: 8.0.x
+        env:
+          DOTNET_INSTALL_DIR: "./.dotnet"
+      
+      - name: Restore dependencies
+        run: dotnet restore
+      
     
   # This workflow contains a single job called "build"
   build:
