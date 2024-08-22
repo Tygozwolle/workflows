@@ -105,9 +105,9 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore
       - name: Build
-        run: dotnet build --no-restore
+        run: dotnet build --no-restore -v m
       - name: Test
-        run: dotnet test --configuration Release_Cpu
+        run: dotnet test --configuration Release_Cpu -v m
         #--no-build --verbosity normal
 
  
