@@ -10,7 +10,7 @@ on:
         description: 'Enter ref'
         required: false
         default: 'master'  
-  push:
+#  push:
   repository_dispatch:
 
 
