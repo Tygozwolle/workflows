@@ -125,5 +125,14 @@ jobs:
         run: dotnet test --configuration Release_Cpu 
           --verbosity quiet
         #--no-build --verbosity normal
-
+  status:
+    runs_on: linux-latest
+    -run: curl -L \
+          -X POST \
+          -H "Accept: application/vnd.github+json" \
+          -H "Authorization: Bearer ${{ secrets.TOKEN }}" \
+          -H "X-GitHub-Api-Version: 2022-11-28" \
+          https://api.github.com/repos/${{ secrets.REPO }}/statuses/${{ github.event.client_payload.ref }} \
+          -d '{"state":"success","target_url":"https://example.com/build/status","description":"The build succeeded!","context":"continuous-integration/jenkins"}'
+  
  
