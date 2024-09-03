@@ -15,7 +15,40 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-
+  cache:
+    runs-on: windows-latest
+    env:
+      NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages    
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v4
+        with: 
+          repository: ${{ secrets.REPO }}
+          token: ${{ secrets.TOKEN }}
+          ref: ${{ github.event.inputs.ref }}
+      - uses: actions/cache@v3
+        with:
+          path: ${{ github.workspace }}\.nuget\packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }} #hash of project files
+          restore-keys: |
+            ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+      - uses: actions/cache@v3
+        with:
+          path: ./.dotnet
+          key: ${{ runner.os }}-dotnet-${{ hashFiles('**/*.csproj') }} #hash of project files
+          restore-keys: |
+            ${{ runner.os }}-dotnet-
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4.0.0
+        with:
+          dotnet-version: 8.0.x
+        env:
+          DOTNET_INSTALL_DIR: "./.dotnet"
+      
+      - name: Restore dependencies
+        run: dotnet restore
+      
+    
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
@@ -24,8 +57,10 @@ jobs:
        os: [windows-latest , windows-2022, windows-2019]
        version: [10, 12, 14]
        version2: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-     #  count: [1, 2]
+       count: [1, 2]
       fail-fast: false
+    needs:
+      - cache
     runs-on: ${{ matrix.os }}
     env:
       NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages    
@@ -42,7 +77,13 @@ jobs:
           path: ${{ github.workspace }}\.nuget\packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }} #hash of project files
           restore-keys: |
-            ${{ runner.os }}-nuget-
+            ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+      - uses: actions/cache@v3
+        with:
+          path: ./.dotnet
+          key: ${{ runner.os }}-dotnet-${{ hashFiles('**/*.csproj') }} #hash of project files
+          restore-keys: |
+            ${{ runner.os }}-dotnet-
       - name: Run a one-line script
         run: ls ImageRecognision/Model
       - uses: suisei-cn/actions-download-file@818d6b7dc8fe73f2f924b6241f2b1134ca1377d9 # 1.6.0
@@ -76,9 +117,10 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore
       - name: Build
-        run: dotnet build --no-restore
+        run: dotnet build --no-restore --verbosity quiet
       - name: Test
-        run: dotnet test --configuration Release_Cpu
+        run: dotnet test --configuration Release_Cpu 
+          --verbosity quiet
         #--no-build --verbosity normal
 
  
