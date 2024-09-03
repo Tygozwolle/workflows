@@ -147,7 +147,7 @@ jobs:
     if: failure() || cancelled()
     steps:
       - name: set
-        if: failure() || cancelled()
+        if: always()
    #     if:  (needs.test-2.result == 'success')
         run: |
           curl -L \
