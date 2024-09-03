@@ -129,6 +129,7 @@ jobs:
     runs-on: linux-latest
     needs:
     - build
+    if: always()
     steps:
       - name: set
         if:  (needs.test-2.result == 'success')
