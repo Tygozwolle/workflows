@@ -16,11 +16,8 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  cache:
-    runs-on: windows-latest
-    env:
-      NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages    
-      REF: ${{ github.event.client_payload.ref }}
+  create:
+    runs-on: ubuntu-latest
     steps:
       - name: set
    #     if:  (needs.test-2.result == 'success')
@@ -33,6 +30,13 @@ jobs:
             https://api.github.com/repos/${{ secrets.REPO }}/statuses/${{ github.event.client_payload.ref }} \
             -d '{"state":"pending","target_url":"https://example.com/build/status","description":"The build succeeded!","context":"continuous-integration/jenkins"}'
 
+  cache:
+    runs-on: windows-latest
+    needs: create
+    env:
+      NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages    
+      REF: ${{ github.event.client_payload.ref }}
+    steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
         with: 
