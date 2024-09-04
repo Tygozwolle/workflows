@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Run the action # You would run your tests before this using the output to set state/desc
-      uses: mapbox/create-status-check@v1
+      uses: billyjbryant/create-status-check@v2
       with:
         authToken: ${{ secrets.TOKEN }}
         context: 'Test run'
@@ -157,7 +157,7 @@ jobs:
     if: failure() || cancelled()
     steps:
      - name: Run the action # You would run your tests before this using the output to set state/desc
-       uses: mapbox/create-status-check@v1
+       uses: billyjbryant/create-status-check@v2
        with:
         authToken: ${{ secrets.TOKEN }}
         context: 'Test run'
@@ -183,7 +183,7 @@ jobs:
    # if: always()
     steps:
     - name: Run the action # You would run your tests before this using the output to set state/desc
-      uses: mapbox/create-status-check@v1
+      uses: billyjbryant/create-status-check@v2
       with:
         authToken: ${{ secrets.TOKEN }}
         context: 'Test run'
