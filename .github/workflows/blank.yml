@@ -24,7 +24,7 @@ jobs:
       with:
         authToken: ${{ secrets.TOKEN }}
         context: 'Test run'
-        description: 'pending'
+        description: 'test run started'
         state: 'pending'
         sha: ${{ github.event.client_payload.ref }}
         repository: ${{ secrets.REPO }}
@@ -189,7 +189,7 @@ jobs:
       with:
         authToken: ${{ secrets.TOKEN }}
         context: 'Test run'
-        description: 'test run sucesful'
+        description: 'test run sucesfull'
         state: 'success'
         sha: ${{ github.event.client_payload.ref }}
         repository: ${{ secrets.REPO }}
