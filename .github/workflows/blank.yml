@@ -28,6 +28,7 @@ jobs:
         state: 'pending'
         sha: ${{ github.event.client_payload.ref }}
         repository: ${{ secrets.REPO }}
+        target_url: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
        # sha: ${{github.event.pull_request.head.sha || github.sha}}
      # - name: set
    #     if:  (needs.test-2.result == 'success')
@@ -165,6 +166,7 @@ jobs:
         state: 'failure'
         sha: ${{ github.event.client_payload.ref }}
         repository: ${{ secrets.REPO }}
+        target_url: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
     #  - name: set
      #   if: always()
    #     if:  (needs.test-2.result == 'success')
@@ -191,6 +193,7 @@ jobs:
         state: 'success'
         sha: ${{ github.event.client_payload.ref }}
         repository: ${{ secrets.REPO }}
+        target_url: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
    #   - name: set
    #     if:  (needs.test-2.result == 'success')
   #      run: |
