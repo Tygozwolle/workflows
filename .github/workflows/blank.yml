@@ -55,13 +55,13 @@ jobs:
           token: ${{ secrets.TOKEN }}
           ref: ${{ github.event.client_payload.ref }}
          # ${{ github.event.inputs.ref }}
-      - uses: actions/cache@v3
+      - uses: actions/cache/restore@v3
         with:
           path: ${{ github.workspace }}\.nuget\packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }} #hash of project files
           restore-keys: |
             ${{ runner.os }}-nuget-
-      - uses: actions/cache@v3
+      - uses: actions/cache/restore@v3
         with:
           path: ./.dotnet
           key: ${{ runner.os }}-dotnet #hash of project files
