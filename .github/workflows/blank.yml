@@ -55,12 +55,12 @@ jobs:
           token: ${{ secrets.TOKEN }}
           ref: ${{ github.event.client_payload.ref }}
          # ${{ github.event.inputs.ref }}
-      - uses: actions/cache@v3
-        with:
-          path: ${{ github.workspace }}\.nuget\packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }} #hash of project files
-          restore-keys: |
-            ${{ runner.os }}-nuget-
+#      - uses: actions/cache@v3
+#        with:
+#          path: ${{ github.workspace }}\.nuget\packages
+#          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }} #hash of project files
+       #   restore-keys: |
+           # ${{ runner.os }}-nuget-
       - uses: actions/cache@v3
         with:
           path: ./.dotnet
@@ -76,6 +76,10 @@ jobs:
       
       - name: Restore dependencies
         run: dotnet restore
+      - uses: actions/cache/save@v3
+        with:
+          path: ${{ github.workspace }}\.nuget\packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }} #hash of project files
       
     
   # This workflow contains a single job called "build"
