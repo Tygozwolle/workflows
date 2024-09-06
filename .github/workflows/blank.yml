@@ -231,7 +231,11 @@ jobs:
        ResultArray: ${{steps.read.outputs}}
       run: | 
           echo "$Results"
-          echo "$ResultArray"
+          for i in $ResultArray
+          do 
+            echo $i
+          done
+          #  echo "$ResultArray"
           $succes = 0
           $failed = 0
           LL=$( echo $Results | jq '. | length' )
