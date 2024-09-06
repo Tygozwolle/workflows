@@ -210,14 +210,18 @@ jobs:
     - build
     if: ${{!cancelled()}}
     steps:
-
+    - uses: cloudposse/github-action-matrix-outputs-read@v1
+      id: read
+      with:
+            matrix-step-name: build
     
     - name: run
       id: percentage
       env: 
        # Results: ${{ toJson(job.*.result) }}
       #   Results: ${{ toJson(needs.*.env.Jobs)}}
-        Results: ${{ toJson(needs.*.outputs)}}
+     #   Results: ${{ toJson(needs.*.outputs)}}
+       Results: ${{ toJson(steps.read.outputs)}}
       run: | 
           echo "$Results"
           LL=$( echo $Results | jq '. | length' )
