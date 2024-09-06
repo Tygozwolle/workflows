@@ -188,6 +188,16 @@ jobs:
     - build
    # if: always()
     steps:
+
+    
+    - name: run
+      id: percentage
+      env: 
+        Results: ${{ toJson(needs.*.result) }}
+      run: | 
+          echo "$Results"
+          LL=$( echo $Results | jq '. | length' )
+          
     - name: Run the action # You would run your tests before this using the output to set state/desc
       uses: billyjbryant/create-status-check@v2
       with:
