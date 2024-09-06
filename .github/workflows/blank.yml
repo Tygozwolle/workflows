@@ -205,7 +205,7 @@ jobs:
         state: 'success'
         sha: ${{ github.event.client_payload.ref }}
         repository: ${{ secrets.REPO }}
-        target_url: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id } 
+        target_url: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
    #   - name: set
    #     if:  (needs.test-2.result == 'success')
   #      run: |
