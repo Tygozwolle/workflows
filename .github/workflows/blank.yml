@@ -222,9 +222,13 @@ jobs:
       #   Results: ${{ toJson(needs.*.env.Jobs)}}
      #   Results: ${{ toJson(needs.*.outputs)}}
        Results: ${{ toJson(steps.read.outputs)}}
+       ResultArray: ${{steps.read.outputs}}
       run: | 
           echo "$Results"
-          LL=$( echo $Results | jq ', | length' )
+          echo "$ResultArray"
+          $succes = 0
+          $failed = 0
+          LL=$( echo $Results | jq '. | length' )
           echo $LL
           
     - name: Run the action # You would run your tests before this using the output to set state/desc
