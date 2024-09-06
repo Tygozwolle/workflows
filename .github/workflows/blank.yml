@@ -199,7 +199,7 @@ jobs:
       env: 
        # Results: ${{ toJson(job.*.result) }}
       #   Results: ${{ toJson(needs.*.env.Jobs)}}
-        Results: ${{ toJson(needs.*.*}}
+        Results: ${{ toJson(needs.*.outputs}}
       run: | 
           echo "$Results"
           LL=$( echo $Results | jq '. | length' )
