@@ -98,7 +98,9 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages   
-      Jobs: ${{ matrix }}
+    outputs:
+      outputM: ${{ job.status }}
+      #Jobs: ${{ matrix }}
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -196,7 +198,8 @@ jobs:
       id: percentage
       env: 
        # Results: ${{ toJson(job.*.result) }}
-         Results: ${{ toJson(needs.*.env.Jobs)}}
+      #   Results: ${{ toJson(needs.*.env.Jobs)}}
+        Results: ${{ toJson(needs.*.*}}
       run: | 
           echo "$Results"
           LL=$( echo $Results | jq '. | length' )
