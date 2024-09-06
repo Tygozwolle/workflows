@@ -105,12 +105,12 @@ jobs:
           repository: ${{ secrets.REPO }}
           token: ${{ secrets.TOKEN }}
           ref: ${{ github.event.client_payload.ref }}
-      - uses: actions/cache/restore@v3
-        with:
-          path: ${{ github.workspace }}\.nuget\packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }} #hash of project files
-          restore-keys: |
-            ${{ runner.os }}-nuget-
+ #     - uses: actions/cache/restore@v3
+#        with:
+  #        path: ${{ github.workspace }}\.nuget\packages
+ #         key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }} #hash of project files
+    #      restore-keys: |
+  #          ${{ runner.os }}-nuget-
       - uses: actions/cache/restore@v3
         with:
           path: ./.dotnet
