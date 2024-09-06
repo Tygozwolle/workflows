@@ -19,6 +19,10 @@ jobs:
   create:
     runs-on: ubuntu-latest
     steps:
+    - run: | 
+          result=${{ needs.*.result }}
+          total= 
+          
     - name: Run the action # You would run your tests before this using the output to set state/desc
       uses: billyjbryant/create-status-check@v2
       with:
