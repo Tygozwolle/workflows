@@ -227,17 +227,17 @@ jobs:
        # Results: ${{ toJson(job.*.result) }}
       #   Results: ${{ toJson(needs.*.env.Jobs)}}
      #   Results: ${{ toJson(needs.*.outputs)}}
-       Results: ${{ toJson(steps.read.outputs)}}
-       ResultArray: ${{steps.read.outputs.result}}
+       Results: ${{ toJson(steps.read.outputs.result)}}
+     #  ResultArray: ${{steps.read.outputs.result}}
       run: | 
           echo "$Results"
-          for i in $ResultArray
-          do 
-            echo $i
-          done
+          # for i in $ResultArray
+          # do 
+            # echo $i
+          # done
           #  echo "$ResultArray"
-          $succes = 0
-          $failed = 0
+          # $succes = 0
+          # $failed = 0
           LL=$( echo $Results | jq '. | length' )
           echo $LL
           
