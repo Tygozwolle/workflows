@@ -224,7 +224,7 @@ jobs:
        Results: ${{ toJson(steps.read.outputs)}}
       run: | 
           echo "$Results"
-          LL=$( echo $Results | jq '. | length' )
+          LL=$( echo $Results | jq ', | length' )
           echo $LL
           
     - name: Run the action # You would run your tests before this using the output to set state/desc
