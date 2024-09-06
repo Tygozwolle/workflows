@@ -18,11 +18,7 @@ on:
 jobs:
   create:
     runs-on: ubuntu-latest
-    steps:
-    - run: | 
-          result=${{ needs.*.result }}
-          total= 
-          
+    steps:         
     - name: Run the action # You would run your tests before this using the output to set state/desc
       uses: billyjbryant/create-status-check@v2
       with:
@@ -192,6 +188,9 @@ jobs:
     - build
     if: ${{ !cancelled() }}
     steps:
+    - run: | 
+          result=${{ needs.*.result }}
+          total= 
     - name: Run the action # You would run your tests before this using the output to set state/desc
       uses: billyjbryant/create-status-check@v2
       with:
