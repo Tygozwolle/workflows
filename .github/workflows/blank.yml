@@ -99,7 +99,7 @@ jobs:
     env:
       NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
     outputs:
-      ${{strategy.job-index}}: ${{ job.status }}
+   #   ${{strategy.job-index}}: ${{ job.status }}
       outputM: ${{ job.status }}
   #         ${{ matrix.os }}_${{ matrix.version }}_result: ${{ job.status }}
       #Jobs: ${{ matrix }}
@@ -168,6 +168,15 @@ jobs:
   #      id: test
  #       run: |
 #              $NAME=$strategy.job-index ; $VALUE=$steps.resultstep.outcome; echo $NAME,$VALUE ;echo "$NAME=$VALUE" >> $GITHUB_OUTPUT 
+      - uses: cloudposse/github-action-matrix-outputs-write@v1
+        id: out
+        with:
+            matrix-step-name: ${{ github.job }}
+            matrix-key: ${{ strategy.job-index }}
+            outputs: |-
+              image: ${{ job.status }}
+              ## Multiline string
+             
   statusfailed:
     runs-on: ubuntu-latest
     needs:
