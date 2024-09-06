@@ -188,7 +188,9 @@ jobs:
     - build
     if: ${{ !cancelled() }}
     steps:
-    - run: | 
+    - name: run
+      id: percentage
+      run: | 
           result=${{ needs.*.result }}
           total= 
     - name: Run the action # You would run your tests before this using the output to set state/desc
