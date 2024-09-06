@@ -193,7 +193,7 @@ jobs:
     - name: run
       id: percentage
       env: 
-        Results: ${{ toJson(needs.*.result) }}
+        Results: ${{ toJson(job.*.result) }}
       run: | 
           echo "$Results"
           LL=$( echo $Results | jq '. | length' )
