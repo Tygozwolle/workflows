@@ -186,7 +186,7 @@ jobs:
     runs-on: ubuntu-latest
     needs:
     - build
-   # if: always()
+    if: ${{ !cancelled() }}
     steps:
     - name: Run the action # You would run your tests before this using the output to set state/desc
       uses: billyjbryant/create-status-check@v2
@@ -197,7 +197,7 @@ jobs:
         state: 'success'
         sha: ${{ github.event.client_payload.ref }}
         repository: ${{ secrets.REPO }}
-        target_url: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        target_url: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id } 
    #   - name: set
    #     if:  (needs.test-2.result == 'success')
   #      run: |
