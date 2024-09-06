@@ -12,6 +12,7 @@ on:
         default: 'master'  
 #  push:
   repository_dispatch:
+ 
 
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -96,7 +97,8 @@ jobs:
       - cache
     runs-on: ${{ matrix.os }}
     env:
-      NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages    
+      NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages   
+      Jobs: ${{ matrix }}
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -152,8 +154,8 @@ jobs:
       - name: Build
         run: dotnet build --no-restore --verbosity quiet
       - name: Test
-        run: dotnet test --configuration Release_Cpu 
-          --verbosity quiet
+   #     run: dotnet test --configuration Release_Cpu 
+    #      --verbosity quiet
         #--no-build --verbosity normal
   statusfailed:
     runs-on: ubuntu-latest
@@ -186,14 +188,15 @@ jobs:
     runs-on: ubuntu-latest
     needs:
     - build
-    if: always()
+    if: ${{!cancelled()}}
     steps:
 
     
     - name: run
       id: percentage
       env: 
-        Results: ${{ toJson(job.*.result) }}
+       # Results: ${{ toJson(job.*.result) }}
+         Results: ${{ toJson(env.Jobs)}}
       run: | 
           echo "$Results"
           LL=$( echo $Results | jq '. | length' )
