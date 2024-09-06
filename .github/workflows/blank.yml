@@ -228,7 +228,7 @@ jobs:
       #   Results: ${{ toJson(needs.*.env.Jobs)}}
      #   Results: ${{ toJson(needs.*.outputs)}}
        Results: ${{ toJson(steps.read.outputs)}}
-       ResultArray: ${{steps.read.outputs}}
+       ResultArray: ${{steps.read.outputs.result}}
       run: | 
           echo "$Results"
           for i in $ResultArray
