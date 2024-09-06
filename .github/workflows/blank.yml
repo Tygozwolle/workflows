@@ -48,9 +48,11 @@ jobs:
     env:
       NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages    
       REF: ${{ github.event.client_payload.ref }}
+      Run: false
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
+        if: $run
         with: 
           repository: ${{ secrets.REPO }}
           token: ${{ secrets.TOKEN }}
@@ -63,12 +65,14 @@ jobs:
        #   restore-keys: |
            # ${{ runner.os }}-nuget-
       - uses: actions/cache@v3
+        if: $run
         with:
           path: ./.dotnet
           key: ${{ runner.os }}-dotnet #hash of project files
           restore-keys: |
             ${{ runner.os }}-dotnet-
       - name: Setup .NET
+        if: $run
         uses: actions/setup-dotnet@v4.0.0
         with:
           dotnet-version: 8.0.x
@@ -76,8 +80,10 @@ jobs:
           DOTNET_INSTALL_DIR: "./.dotnet"
       
       - name: Restore dependencies
+        if: $run
         run: dotnet restore
       - uses: actions/cache/save@v3
+        if: $run
         with:
           path: ${{ github.workspace }}\.nuget\packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }} #hash of project files
