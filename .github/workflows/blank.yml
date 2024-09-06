@@ -52,7 +52,7 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
-        if: ${{failure()}}
+       # if: ${{failure()}}
         with: 
           repository: ${{ secrets.REPO }}
           token: ${{ secrets.TOKEN }}
@@ -65,14 +65,14 @@ jobs:
        #   restore-keys: |
            # ${{ runner.os }}-nuget-
       - uses: actions/cache@v3
-        if: ${{failure()}}
+     #   if: ${{failure()}}
         with:
           path: ./.dotnet
           key: ${{ runner.os }}-dotnet #hash of project files
           restore-keys: |
             ${{ runner.os }}-dotnet-
       - name: Setup .NET
-        if: ${{failure()}}
+      #  if: ${{failure()}}
         uses: actions/setup-dotnet@v4.0.0
         with:
           dotnet-version: 8.0.x
@@ -80,10 +80,10 @@ jobs:
           DOTNET_INSTALL_DIR: "./.dotnet"
       
       - name: Restore dependencies
-        if: ${{failure()}}
+       # if: ${{failure()}}
         run: dotnet restore
       - uses: actions/cache/save@v3
-        if: ${{failure()}}
+       # if: ${{failure()}}
         with:
           path: ${{ github.workspace }}\.nuget\packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }} #hash of project files
@@ -174,13 +174,13 @@ jobs:
   #      id: test
  #       run: |
 #              $NAME=$strategy.job-index ; $VALUE=$steps.resultstep.outcome; echo $NAME,$VALUE ;echo "$NAME=$VALUE" >> $GITHUB_OUTPUT 
-      - uses: cloudposse/github-action-matrix-outputs-write@v1
-        id: out
-        with:
-            matrix-step-name: ${{ github.job }}
-            matrix-key: ${{ strategy.job-index }}
-            outputs: |-
-              image: ${{ job.status }}
+   #   - uses: cloudposse/github-action-matrix-outputs-write@v1
+    #    id: out
+     #   with:
+      #      matrix-step-name: ${{ github.job }}
+       #     matrix-key: ${{ strategy.job-index }}
+        #    outputs: |-
+         #     image: ${{ job.status }}
               ## Multiline string
              
   statusfailed:
@@ -214,32 +214,32 @@ jobs:
     runs-on: ubuntu-latest
     needs:
     - build
-    if: ${{!cancelled()}}
+  #  if: ${{!cancelled()}}
     steps:
-    - uses: cloudposse/github-action-matrix-outputs-read@v1
-      id: read
-      with:
-            matrix-step-name: build
+   # - uses: cloudposse/github-action-matrix-outputs-read@v1
+    #  id: read
+     # with:
+      #      matrix-step-name: build
     
-    - name: run
-      id: percentage
-      env: 
+   # - name: run
+    #  id: percentage
+     # env: 
        # Results: ${{ toJson(job.*.result) }}
       #   Results: ${{ toJson(needs.*.env.Jobs)}}
      #   Results: ${{ toJson(needs.*.outputs)}}
-       Results: ${{ toJson(steps.read.outputs.result)}}
+      # Results: ${{ toJson(steps.read.outputs.result)}}
      #  ResultArray: ${{steps.read.outputs.result}}
-      run: | 
-          echo "$Results"
-          # for i in $ResultArray
+#      run: | 
+    #      echo "$Results"
+ #         # for i in $ResultArray
           # do 
             # echo $i
           # done
           #  echo "$ResultArray"
           # $succes = 0
           # $failed = 0
-          LL=$( echo $Results | jq '. | length' )
-          echo $LL
+  #        LL=$( echo $Results | jq '. | length' )
+   #       echo $LL
           
     - name: Run the action # You would run your tests before this using the output to set state/desc
       uses: billyjbryant/create-status-check@v2
