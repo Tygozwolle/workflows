@@ -190,6 +190,8 @@ jobs:
     steps:
     - name: run
       id: percentage
+      env: 
+        Results: ${{ toJson(needs.*.result) }}
       run: | 
           result=${{ needs.*.result }}
           total= 
