@@ -48,7 +48,7 @@ jobs:
     env:
       NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages    
       REF: ${{ github.event.client_payload.ref }}
-      Run: false
+      Run: ${{failure()}}
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
