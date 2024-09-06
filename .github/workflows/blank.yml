@@ -100,7 +100,7 @@ jobs:
       NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
     outputs:
      # outputM: ${{ job.status }}
-           ${{ matrix.os }}_${{ matrix.arch }}_result: ${{ job.status }}
+           ${{ matrix.os }}_${{ matrix.version }}_result: ${{ job.status }}
       #Jobs: ${{ matrix }}
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
