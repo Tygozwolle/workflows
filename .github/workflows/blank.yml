@@ -97,7 +97,8 @@ jobs:
       - cache
     runs-on: ${{ matrix.os }}
     env:
-      NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages   
+      NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
+      NameRun: ${{ $matrix.os + $matrix.version2 }}
     outputs:
       outputM: ${{ job.status }}
       #Jobs: ${{ matrix }}
@@ -165,7 +166,7 @@ jobs:
         shell: powershell
         id: test
         run: |
-              $NAME=$matrix.* ; $VALUE=$steps.resultstep.outcome; echo $NAME,$VALUE ;echo "$NAME=$VALUE" >> $GITHUB_OUTPUT 
+              $NAME=$NameRun ; $VALUE=$steps.resultstep.outcome; echo $NAME,$VALUE ;echo "$NAME=$VALUE" >> $GITHUB_OUTPUT 
   statusfailed:
     runs-on: ubuntu-latest
     needs:
