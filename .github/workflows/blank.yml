@@ -118,6 +118,7 @@ jobs:
           repository: ${{ secrets.REPO }}
           token: ${{ secrets.TOKEN }}
           ref: ${{ github.event.client_payload.ref }}
+          lfs: 'true'
       - uses: actions/cache/restore@v3
         with:
           path: ${{ github.workspace }}\.nuget\packages
