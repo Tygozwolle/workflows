@@ -51,13 +51,14 @@ jobs:
       
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v4
+      - run: git clone https://github.com/${{secrets.REPO}} --branch ${{ github.event.client_payload.ref }}
+      #- uses: actions/checkout@v4
        # if: ${{failure()}}
-        with: 
-          repository: ${{ secrets.REPO }}
-          token: ${{ secrets.TOKEN }}
-          ref: ${{ github.event.client_payload.ref }}
-      - run: git lfs pull
+       # with: 
+        #  repository: ${{ secrets.REPO }}
+       #   token: ${{ secrets.TOKEN }}
+      #    ref: ${{ github.event.client_payload.ref }}
+     # - run: git lfs pull
          # ${{ github.event.inputs.ref }}
 #      - uses: actions/cache@v3
 #        with:
