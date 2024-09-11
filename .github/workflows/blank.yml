@@ -57,7 +57,7 @@ jobs:
           repository: ${{ secrets.REPO }}
           token: ${{ secrets.TOKEN }}
           ref: ${{ github.event.client_payload.ref }}
-      - run: git lfs pull --all
+      - run: git lfs pull
          # ${{ github.event.inputs.ref }}
 #      - uses: actions/cache@v3
 #        with:
