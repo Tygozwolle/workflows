@@ -57,6 +57,7 @@ jobs:
           repository: ${{ secrets.REPO }}
           token: ${{ secrets.TOKEN }}
           ref: ${{ github.event.client_payload.ref }}
+          lfs: 'true'
          # ${{ github.event.inputs.ref }}
 #      - uses: actions/cache@v3
 #        with:
