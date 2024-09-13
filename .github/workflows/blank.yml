@@ -69,10 +69,17 @@ jobs:
       - uses: actions/cache@v3
      #   if: ${{failure()}}
         with:
-          path: ./.dotnet
+          path: .git/lfs
           key: ${{ runner.os }}-dotnet #hash of project files
           restore-keys: |
             ${{ runner.os }}-dotnet-
+      - uses: actions/cache@v3
+     #   if: ${{failure()}}
+        with:
+          path: .git/lfs
+          key: ${{ runner.os }}-dotnet #hash of project files
+          restore-keys: |
+            ${{ runner.os }}-lfs
       - name: Setup .NET
       #  if: ${{failure()}}
         uses: actions/setup-dotnet@v4.0.0
@@ -120,6 +127,13 @@ jobs:
           repository: ${{ secrets.REPO }}
           token: ${{ secrets.TOKEN }}
           ref: ${{ github.event.client_payload.ref }}
+      - uses: actions/cache@v3
+     #   if: ${{failure()}}
+        with:
+          path: .git/lfs
+          key: ${{ runner.os }}-dotnet #hash of project files
+          restore-keys: |
+            ${{ runner.os }}-lfs
       - run: git lfs pull
       - uses: actions/cache/restore@v3
         with:
