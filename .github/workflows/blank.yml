@@ -70,13 +70,13 @@ jobs:
      #   if: ${{failure()}}
         with:
           path: .git/lfs
-          key: ${{ runner.os }}-dotnet #hash of project files
+          key: ${{ runner.os }}-lfs #hash of project files
           restore-keys: |
             ${{ runner.os }}-dotnet-
       - uses: actions/cache@v3
      #   if: ${{failure()}}
         with:
-          path: .git/lfs
+          path: ./.dotnet
           key: ${{ runner.os }}-dotnet #hash of project files
           restore-keys: |
             ${{ runner.os }}-lfs
