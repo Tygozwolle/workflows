@@ -98,6 +98,13 @@ jobs:
    #       path: ${{ github.workspace }}\.nuget\packages
 #          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }} #hash of project files
       
+      - uses: actions/cache/save@v3
+     #   if: ${{failure()}}
+        with:
+          path: .git/lfs
+          key: ${{ github.run_id }}-lfs #hash of project files
+        #  restore-keys: |
+ #           ${{ runner.os }}-dotnet-
     
   # This workflow contains a single job called "build"
   build:
@@ -127,13 +134,13 @@ jobs:
           repository: ${{ secrets.REPO }}
           token: ${{ secrets.TOKEN }}
           ref: ${{ github.event.client_payload.ref }}
- #     - uses: actions/cache@v3
+      - uses: actions/cache/restore@v3
      #   if: ${{failure()}}
-  #      with:
-#          path: .git/lfs
-  #        key: ${{ runner.os }}-dotnet #hash of project files
-   #       restore-keys: |
-   #         ${{ runner.os }}-lfs
+        with:
+          path: .git/lfs
+     #     key: ${{ runner.os }}-dotnet #hash of project files
+          restore-keys: |
+            ${{ github.run_id}}-lfs
       - run: git lfs pull
       - uses: actions/cache/restore@v3
         with:
