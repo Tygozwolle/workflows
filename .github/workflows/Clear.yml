@@ -8,6 +8,7 @@ jobs:
   my-job:
     name: Delete all caches
     runs-on: ubuntu-20.04
+    permissions: write-all
 
     steps:
       - name: Clear caches
