@@ -142,6 +142,7 @@ jobs:
           key: ${{ github.run_id}}-lfs #hash of project files
           restore-keys: |
             ${{ github.run_id}}-lfs
+      - run: git config http.sslverify false
       - run: git lfs pull
       - uses: actions/cache/restore@v3
         with:
