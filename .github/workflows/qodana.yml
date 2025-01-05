@@ -35,7 +35,7 @@ jobs:
           # Create the registration token 
           response=$(curl -X POST -H "Authorization: token $PAT" \
           -H "Accept: application/vnd.github.v3+json" \ 
-          https://api.github.com/repos/$REPO/actions/runners/registration-token)
+          https://api.github.com/repos/$REPO/actions/runners/registration-token )
           token=$(echo $response | jq -r .token)
           
           mkdir actions-runner && cd actions-runner
