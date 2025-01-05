@@ -36,6 +36,7 @@ jobs:
           tar xzf ./actions-runner-linux-x64-2.321.0.tar.gz
           REPO=${{ secrets.REPO }}
           PAT=${{ secrets.TOKEN }}
+          echo ${{github.repository}}
           # Create the registration token 
           response=$(curl -X POST -H "Authorization: token $PAT" \
           -H "Accept: application/vnd.github.v3+json" \ 
