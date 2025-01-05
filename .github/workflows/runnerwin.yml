@@ -1,0 +1,50 @@
+name: windows
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+ # push:
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  repository_dispatch:
+    types: [qodana-**]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  qodana:
+    timeout-minutes: 30
+    # The type of runner that the job will run on
+    runs-on: windows-latest
+    env:
+     GH_TOKEN: ${{ secrets.TOKEN }}
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v4
+
+      # Runs a single command using the runners shell
+      - name: Run a one-line script
+        run: echo Hello, world!
+
+      # Runs a set of commands using the runners shell
+      - name: Run a multi-line script
+        run: |
+          REPO=${{ secrets.REPOSITORYNAME }}
+          PAT=${{ secrets.TOKEN }}
+          # Create the registration token 
+          response=$(gh api --method POST -H "Accept: application/vnd.github.v3+json" /repos/$REPO/actions/runners/registration-token)
+            # response=$(curl -X POST -H "Authorization: token $PAT" \
+            #  -H "Accept: application/vnd.github.v3+json" \ 
+            #   https://api.github.com/repos/$REPO/actions/runners/registration-token )
+          token=$(echo $response | jq -r .token)
+          
+          mkdir actions-runner; cd actions-runner
+          $ Invoke-WebRequest -Uri https://github.com/actions/runner/releases/download/v2.321.0/actions-runner-win-x64-2.321.0.zip -OutFile actions-runner-win-x64-2.321.0.zip
+          $ if((Get-FileHash -Path actions-runner-win-x64-2.321.0.zip -Algorithm SHA256).Hash.ToUpper() -ne '88d754da46f4053aec9007d172020c1b75ab2e2049c08aef759b643316580bbc'.ToUpper()){ throw 'Computed checksum did not match' }
+          $ Add-Type -AssemblyName System.IO.Compression.FileSystem ;
+          [System.IO.Compression.ZipFile]::ExtractToDirectory("$PWD/actions-runner-win-x64-2.321.0.zip", "$PWD")
+          ./config.cmd --url https://github.com/$REPO --token $token --ephemeral --labels windows,runner --name windows-${{ github.run_number }}
+          ./run.cmd
