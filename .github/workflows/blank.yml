@@ -12,6 +12,7 @@ on:
         default: 'master'  
 #  push:
   repository_dispatch:
+    types: [my-event-**]
  
 
 
