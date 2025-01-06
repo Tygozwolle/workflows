@@ -1,0 +1,52 @@
+
+# This is a basic workflow to help you get started with Actions
+
+name: qodana
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+ # push:
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  repository_dispatch:
+    types: [runner-linux-**]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  qodana:
+    timeout-minutes: 30
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    env:
+     GH_TOKEN: ${{ secrets.TOKEN }}
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v4
+
+      # Runs a single command using the runners shell
+      - name: Run a one-line script
+        run: echo Hello, world!
+
+      # Runs a set of commands using the runners shell
+      - name: Run a multi-line script
+        run: |
+          REPO=${{ github.event.client_payload.repo }}
+          PAT=${{ secrets.TOKEN }}
+          # Create the registration token 
+          response=$(gh api --method POST -H "Accept: application/vnd.github.v3+json" /repos/$REPO/actions/runners/registration-token)
+            # response=$(curl -X POST -H "Authorization: token $PAT" \
+            #  -H "Accept: application/vnd.github.v3+json" \ 
+            #   https://api.github.com/repos/$REPO/actions/runners/registration-token )
+          token=$(echo $response | jq -r .token)
+          
+          mkdir actions-runner && cd actions-runner
+          curl -o actions-runner-linux-x64-2.321.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.321.0/actions-runner-linux-x64-2.321.0.tar.gz
+          echo "ba46ba7ce3a4d7236b16fbe44419fb453bc08f866b24f04d549ec89f1722a29e  actions-runner-linux-x64-2.321.0.tar.gz" | shasum -a 256 -c
+          tar xzf ./actions-runner-linux-x64-2.321.0.tar.gz
+          ./config.sh --url https://github.com/$REPO --token $token --ephemeral --labels runner --name $(basename $(dirname $(dirname $(dirname $(pwd)))))-${{ github.run_number }}
+          ./run.sh
