@@ -104,7 +104,7 @@ jobs:
      #   if: ${{failure()}}
         with:
           path: .git/lfs
-          key: ${{ github.run_id }}-lfs #hash of project files
+          key: lfs #hash of project files
         #  restore-keys: |
  #           ${{ runner.os }}-dotnet-
     
@@ -142,7 +142,7 @@ jobs:
           path: .git/lfs
           key: ${{ github.run_id}}-lfs #hash of project files
           restore-keys: |
-            ${{ github.run_id}}-lfs
+            lfs
       - run: git config http.sslverify false
       - run: git lfs pull
       - uses: actions/cache/restore@v3
