@@ -35,6 +35,10 @@ jobs:
       - name: Run a multi-line script
         shell: pwsh
         run: |  
+          Invoke-WebRequest -Uri https://dot.net/v1/dotnet-install.ps1 -OutFile dotnet-install.ps1
+          .\dotnet-install.ps1 -Version 9.0 -InstallDir "C:\dotnet"
+          [System.Environment]::SetEnvironmentVariable("PATH", $Env:PATH + ";C:\dotnet", [System.EnvironmentVariableTarget]::Machine)
+          [System.Environment]::SetEnvironmentVariable("DOTNET_ROOT", "C:\dotnet", [System.EnvironmentVariableTarget]::Machine)
 
           mkdir "C:\path\to\your\Agent_WorkDir"
           echo "created dir"
@@ -42,7 +46,7 @@ jobs:
           -e SERVER_URL=${{secrets.TEAM}} `
           -e AGENT_NAME="windows" `
           -v "C:\path\to\your\Agent_WorkDir:C:\BuildAgent\work" `
-          jetbrains/teamcity-agent:latest-windowsservercore
+          jetbrains/teamcity-agent:latest # -windowsservercore
           echo "agent started"
             docker logs -f teamcity-agent
 
