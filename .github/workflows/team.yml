@@ -30,7 +30,7 @@ jobs:
         shell: pwsh
         run: |
           
-          
+          mkdir "C:\path\to\your\Agent_WorkDir"
           docker run -d --name teamcity-agent `
           -e SERVER_URL=${{secrets.TEAM}} `
           -e AGENT_NAME="windows" `
