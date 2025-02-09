@@ -36,7 +36,7 @@ jobs:
         shell: pwsh
         run: |  
           Invoke-WebRequest -Uri https://dot.net/v1/dotnet-install.ps1 -OutFile dotnet-install.ps1
-          .\dotnet-install.ps1 -Version 9.0 -InstallDir "C:\dotnet"
+          .\dotnet-install.ps1 -Version 8.0 -InstallDir "C:\dotnet"
           [System.Environment]::SetEnvironmentVariable("PATH", $Env:PATH + ";C:\dotnet", [System.EnvironmentVariableTarget]::Machine)
           [System.Environment]::SetEnvironmentVariable("DOTNET_ROOT", "C:\dotnet", [System.EnvironmentVariableTarget]::Machine)
 
