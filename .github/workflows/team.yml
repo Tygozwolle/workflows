@@ -34,7 +34,7 @@ jobs:
           mkdir actions-runner; cd actions-runner
 
           Invoke-WebRequest -Uri ${{secrets.TEAM }}/update/agentInstaller.exe -OutFile agentInstaller.exe
-          agentInstaller.exe
+          .\agentInstaller.exe
 
        #   Add-Type -AssemblyName System.IO.Compression.FileSystem ; [System.IO.Compression.ZipFile]::ExtractToDirectory("$PWD/actions-runner-win-x64-2.322.0.zip", "$PWD")
         
