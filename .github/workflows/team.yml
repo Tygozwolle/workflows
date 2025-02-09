@@ -35,6 +35,7 @@ jobs:
       - name: Run a multi-line script
         shell: pwsh
         run: |  
+          git lfs uninstall
           # Invoke-WebRequest -Uri https://dot.net/v1/dotnet-install.ps1 -OutFile dotnet-install.ps1
           # .\dotnet-install.ps1 -Version 8.0 -InstallDir "C:\dotnet"
           [System.Environment]::SetEnvironmentVariable("PATH", $Env:PATH + ";C:\dotnet", [System.EnvironmentVariableTarget]::Machine)
