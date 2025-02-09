@@ -52,3 +52,8 @@ jobs:
             docker logs -f teamcity-agent
 
             sleep 1000
+      - name: Run a multi-line script
+        if: always()
+        shell: pwsh
+        run: |  
+              docker stop teamcity-agent
