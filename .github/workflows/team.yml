@@ -34,7 +34,7 @@ jobs:
           docker run -d --name teamcity-agent \
           -e SERVER_URL="${{secrets.TEAM}}" \
           -e AGENT_NAME="windows" \
-          -v <Agent_WorkDir>:"C:\BuildAgent\work" \
+          -v "C:\path\to\your\Agent_WorkDir:C:\BuildAgent\work" \
           jetbrains/teamcity-agent:latest-windowsservercore
             docker logs -f teamcity-agent
 
