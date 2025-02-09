@@ -62,18 +62,25 @@ jobs:
 
             # Rename configuration file
             Rename-Item -Path $agentConfigFile -NewName $agentConfigFileRenamed
-
             # Navigate to the Agent Directory
             Set-Location "$agentExtractPath\bin"
+            Write-Host "Navigated to Agent directory: $agentExtractPath\bin"
 
-            # Install the Agent Service
-            Start-Process -FilePath ".\agent.bat" -ArgumentList "install" -NoNewWindow -Wait
+            # Start the Agent directly
+            Write-Host "Starting TeamCity Agent..."
+            cmd.exe /c "agent.bat start"
+            Write-Host
+            # # Navigate to the Agent Directory
+            # Set-Location "$agentExtractPath\bin"
 
-            # Start the Agent in a new console window
-            Start-Process -FilePath ".\agent.bat" -ArgumentList "start" -NoNewWindow
+            # # Install the Agent Service
+            # Start-Process -FilePath ".\agent.bat" -ArgumentList "install" -NoNewWindow -Wait
 
-            Write-Host "TeamCity Agent installation and configuration completed."
-            sleep 86400
+            # # Start the Agent in a new console window
+            # Start-Process -FilePath ".\agent.bat" -ArgumentList "start" -NoNewWindow
+
+            # Write-Host "TeamCity Agent installation and configuration completed."
+            # sleep 86400
         
         #  ./config.cmd --url https://github.com/$REPO --token $token --ephemeral --labels windows,runner --name windows-${{ github.run_number }}
          # ./run.cmd
