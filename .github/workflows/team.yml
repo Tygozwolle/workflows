@@ -66,6 +66,10 @@ jobs:
             Set-Location "$agentExtractPath\bin"
             Write-Host "Navigated to Agent directory: $agentExtractPath\bin"
             
+                    if (-Not (Test-Path -Path ".\agent.bat")) {
+            Write-Host "Error: agent.bat not found in the directory."
+            exit 1
+            }
             Write-Host "Starting TeamCity Agent..."
             $processInfo = New-Object System.Diagnostics.ProcessStartInfo
             $processInfo.FileName = "cmd.exe"
