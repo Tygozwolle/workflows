@@ -36,7 +36,7 @@ jobs:
         shell: bash
         run: |  
 
-          mkdir -p /path/to/your/Agent_WorkDir
+          sudo mkdir -p /path/to/your/Agent_WorkDir
           echo "created dir"
           docker run -d --name teamcity-agent \
           -e SERVER_URL=${{secrets.TEAM}} \
