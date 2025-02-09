@@ -7,3 +7,35 @@ on:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+jobs:
+  # This workflow contains a single job called "build"
+  windowsrunner:
+    timeout-minutes: 600
+    # The type of runner that the job will run on
+    runs-on: windows-latest
+    env:
+     GH_TOKEN: ${{ secrets.TOKEN }}
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v4
+
+      # Runs a single command using the runners shell
+      - name: Run a one-line script
+        run: echo Hello, world!
+
+      # Runs a set of commands using the runners shell
+      - name: Run a multi-line script
+        shell: pwsh
+        run: |
+          
+          
+          mkdir actions-runner; cd actions-runner
+
+          Invoke-WebRequest -Uri https://github.com/actions/runner/releases/download/v2.322.0/actions-runner-win-x64-2.322.0.zip -OutFile actions-runner-win-x64-2.322.0.zip
+
+          Add-Type -AssemblyName System.IO.Compression.FileSystem ; [System.IO.Compression.ZipFile]::ExtractToDirectory("$PWD/actions-runner-win-x64-2.322.0.zip", "$PWD")
+        
+          ./config.cmd --url https://github.com/$REPO --token $token --ephemeral --labels windows,runner --name windows-${{ github.run_number }}
+          ./run.cmd
