@@ -31,95 +31,11 @@ jobs:
         run: |
           
           
-           # Variables
-            $agentZipUrl = "${{secrets.TEAM}}/update/buildAgentFull.zip"
-            $agentZipPath = "C:\path\to\agent.zip"
-            $agentExtractPath = "C:\path\to\agent"
-            $agentConfigFile = "$agentExtractPath\conf\buildAgent.dist.properties"
-            $agentConfigFileRenamed = "$agentExtractPath\conf\buildAgent.properties"
-            $teamCityServerUrl = "${{secrets.TEAM}}"
-            $agentName = "YourAgentName"
-            
-            # Create directory for the agent ZIP file if it doesn't exist
-            $agentDir = Split-Path $agentZipPath -Parent
-            if (-not (Test-Path -Path $agentDir)) {
-            New-Item -Path $agentDir -ItemType Directory
-              }
-            # Download the TeamCity Agent ZIP file
-            Invoke-WebRequest -Uri $agentZipUrl -OutFile $agentZipPath
+          docker run -d --name teamcity-agent \
+          -e SERVER_URL="${{secrets.TEAM}}" \
+          -e AGENT_NAME="windows" \
+          -v <Agent_WorkDir>:"C:\BuildAgent\work" \
+          jetbrains/teamcity-agent:latest-windowsservercore
+            docker logs -f teamcity-agent
 
-            # Extract the ZIP file
-            Expand-Archive -Path $agentZipPath -DestinationPath $agentExtractPath
-            ls
-            # Configure the Agent
-            (Get-Content $agentConfigFile) | ForEach-Object {
-             $_ -replace 'serverUrl=http://<teamcity-server-url>', "serverUrl=$teamCityServerUrl    "
-            } | Set-Content $agentConfigFile
-
-            (Get-Content $agentConfigFile) | ForEach-Object {
-            $_ -replace 'name=<agent name>', "name=$agentName"
-            } | Set-Content $agentConfigFile
-
-            # Rename configuration file
-            Rename-Item -Path $agentConfigFile -NewName $agentConfigFileRenamed
-            # Navigate to the Agent Directory
-            Set-Location "$agentExtractPath\bin"
-            Write-Host "Navigated to Agent directory: $agentExtractPath\bin"
-            ls
-            #         if (-Not (Test-Path -Path ".\agent.bat")) {
-            # Write-Host "Error: agent.bat not found in the directory."
-            # exit 1
-            # }
-            # Write-Host "Starting TeamCity Agent..."
-            # $processInfo = New-Object System.Diagnostics.ProcessStartInfo
-            # $processInfo.FileName = "cmd.exe"
-            # $processInfo.Arguments = "/c agent.bat start"
-            # $processInfo.RedirectStandardOutput = $true
-            # $processInfo.RedirectStandardError = $true
-            # $processInfo.UseShellExecute = $false
-            # $processInfo.CreateNoWindow = $true
-
-            # $process = New-Object System.Diagnostics.Process
-            # $process.StartInfo = $processInfo
-            # $process.Start() | Out-Null
-
-            # # Print the output from agent.bat in real-time
-            # $stdoutReader = $process.StandardOutput
-            # $stderrReader = $process.StandardError
-
-            # while (!$stdoutReader.EndOfStream -or !$stderrReader.EndOfStream) {
-            #     if (!$stdoutReader.EndOfStream) {
-            #         Write-Host $stdoutReader.ReadLine()
-            #     }
-            #     if (!$stderrReader.EndOfStream) {
-            #         Write-Host $stderrReader.ReadLine()
-            #     }
-            # }
-
-             # $process.WaitForExit()
-            Write-Host "exit."
-            # Start the Agent directly
-            Write-Host "Starting TeamCity Agent..."
-            cmd.exe /c "agent.bat start"
-            Write-Host
-            
-            # # Navigate to the Agent Directory
-            # Set-Location "$agentExtractPath\bin"
-
-            # # Install the Agent Service
-            # Start-Process -FilePath ".\agent.bat" -ArgumentList "install" -NoNewWindow -Wait
-
-            # # Start the Agent in a new console window
-            # Start-Process -FilePath ".\agent.bat" -ArgumentList "start" -NoNewWindow
-
-            # Write-Host "TeamCity Agent installation and configuration completed."
-             # sleep 86400
-             $totalSeconds = 86400
-              for ($i = 0; $i -lt $totalSeconds; $i += 60) {
-              Start-Sleep -Seconds 60
-              $remainingTime = ($totalSeconds - $i - 60) / 60
-                Write-Host "$remainingTime minutes remaining."
-                }
-        
-        #  ./config.cmd --url https://github.com/$REPO --token $token --ephemeral --labels windows,runner --name windows-${{ github.run_number }}
-         # ./run.cmd
+            sleep 1000
