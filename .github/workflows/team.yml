@@ -80,7 +80,13 @@ jobs:
             # Start-Process -FilePath ".\agent.bat" -ArgumentList "start" -NoNewWindow
 
             # Write-Host "TeamCity Agent installation and configuration completed."
-             sleep 86400
+             # sleep 86400
+             $totalSeconds = 86400
+              for ($i = 0; $i -lt $totalSeconds; $i += 60) {
+              Start-Sleep -Seconds 60
+              $remainingTime = ($totalSeconds - $i - 60) / 60
+                Write-Host "$remainingTime minutes remaining."
+                }
         
         #  ./config.cmd --url https://github.com/$REPO --token $token --ephemeral --labels windows,runner --name windows-${{ github.run_number }}
          # ./run.cmd
