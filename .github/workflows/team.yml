@@ -73,7 +73,7 @@ jobs:
             $processInfo.RedirectStandardOutput = $true
             $processInfo.RedirectStandardError = $true
             $processInfo.UseShellExecute = $false
-            $processInfo.CreateNoWindow = $false
+            $processInfo.CreateNoWindow = $true
 
             $process = New-Object System.Diagnostics.Process
             $process.StartInfo = $processInfo
