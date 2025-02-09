@@ -3,14 +3,14 @@ name: windows
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
- # push:
+  push:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 jobs:
   # This workflow contains a single job called "build"
   windowsrunner:
-    timeout-minutes: 600
+    timeout-minutes: 5
     # The type of runner that the job will run on
     runs-on: windows-latest
     env:
@@ -33,9 +33,9 @@ jobs:
           
           mkdir actions-runner; cd actions-runner
 
-          Invoke-WebRequest -Uri https://github.com/actions/runner/releases/download/v2.322.0/actions-runner-win-x64-2.322.0.zip -OutFile actions-runner-win-x64-2.322.0.zip
+          Invoke-WebRequest -Uri ${{secret.TEAM }}/update/agentInstaller.exe -OutFile agentInstaller.exe
 
-          Add-Type -AssemblyName System.IO.Compression.FileSystem ; [System.IO.Compression.ZipFile]::ExtractToDirectory("$PWD/actions-runner-win-x64-2.322.0.zip", "$PWD")
+       #   Add-Type -AssemblyName System.IO.Compression.FileSystem ; [System.IO.Compression.ZipFile]::ExtractToDirectory("$PWD/actions-runner-win-x64-2.322.0.zip", "$PWD")
         
-          ./config.cmd --url https://github.com/$REPO --token $token --ephemeral --labels windows,runner --name windows-${{ github.run_number }}
-          ./run.cmd
+        #  ./config.cmd --url https://github.com/$REPO --token $token --ephemeral --labels windows,runner --name windows-${{ github.run_number }}
+         # ./run.cmd
