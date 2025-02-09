@@ -69,8 +69,8 @@ jobs:
             # Install the Agent Service
             Start-Process -FilePath ".\agent.bat" -ArgumentList "install" -NoNewWindow -Wait
 
-            # Start the Agent Service
-            Start-Service -Name "TCBuildAgent"
+            # Start the Agent in a new console window
+            Start-Process -FilePath ".\agent.bat" -ArgumentList "start" -NoNewWindow
 
             Write-Host "TeamCity Agent installation and configuration completed."
 
