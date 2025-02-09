@@ -10,7 +10,7 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   windowsrunner:
-    timeout-minutes: 5
+    timeout-minutes: 50
     # The type of runner that the job will run on
     runs-on: windows-latest
     env:
