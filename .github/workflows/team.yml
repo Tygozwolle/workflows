@@ -66,42 +66,42 @@ jobs:
             Set-Location "$agentExtractPath\bin"
             Write-Host "Navigated to Agent directory: $agentExtractPath\bin"
             
-                    if (-Not (Test-Path -Path ".\agent.bat")) {
-            Write-Host "Error: agent.bat not found in the directory."
-            exit 1
-            }
-            Write-Host "Starting TeamCity Agent..."
-            $processInfo = New-Object System.Diagnostics.ProcessStartInfo
-            $processInfo.FileName = "cmd.exe"
-            $processInfo.Arguments = "/c agent.bat start"
-            $processInfo.RedirectStandardOutput = $true
-            $processInfo.RedirectStandardError = $true
-            $processInfo.UseShellExecute = $false
-            $processInfo.CreateNoWindow = $true
-
-            $process = New-Object System.Diagnostics.Process
-            $process.StartInfo = $processInfo
-            $process.Start() | Out-Null
-
-            # Print the output from agent.bat in real-time
-            $stdoutReader = $process.StandardOutput
-            $stderrReader = $process.StandardError
-
-            while (!$stdoutReader.EndOfStream -or !$stderrReader.EndOfStream) {
-                if (!$stdoutReader.EndOfStream) {
-                    Write-Host $stdoutReader.ReadLine()
-                }
-                if (!$stderrReader.EndOfStream) {
-                    Write-Host $stderrReader.ReadLine()
-                }
-            }
-
-            $process.WaitForExit()
-            Write-Host "exit."
-            # # Start the Agent directly
+            #         if (-Not (Test-Path -Path ".\agent.bat")) {
+            # Write-Host "Error: agent.bat not found in the directory."
+            # exit 1
+            # }
             # Write-Host "Starting TeamCity Agent..."
-            # cmd.exe /c "agent.bat start"
-            # Write-Host
+            # $processInfo = New-Object System.Diagnostics.ProcessStartInfo
+            # $processInfo.FileName = "cmd.exe"
+            # $processInfo.Arguments = "/c agent.bat start"
+            # $processInfo.RedirectStandardOutput = $true
+            # $processInfo.RedirectStandardError = $true
+            # $processInfo.UseShellExecute = $false
+            # $processInfo.CreateNoWindow = $true
+
+            # $process = New-Object System.Diagnostics.Process
+            # $process.StartInfo = $processInfo
+            # $process.Start() | Out-Null
+
+            # # Print the output from agent.bat in real-time
+            # $stdoutReader = $process.StandardOutput
+            # $stderrReader = $process.StandardError
+
+            # while (!$stdoutReader.EndOfStream -or !$stderrReader.EndOfStream) {
+            #     if (!$stdoutReader.EndOfStream) {
+            #         Write-Host $stdoutReader.ReadLine()
+            #     }
+            #     if (!$stderrReader.EndOfStream) {
+            #         Write-Host $stderrReader.ReadLine()
+            #     }
+            # }
+
+             # $process.WaitForExit()
+            Write-Host "exit."
+            # Start the Agent directly
+            Write-Host "Starting TeamCity Agent..."
+            cmd.exe /c "agent.bat start"
+            Write-Host
             
             # # Navigate to the Agent Directory
             # Set-Location "$agentExtractPath\bin"
