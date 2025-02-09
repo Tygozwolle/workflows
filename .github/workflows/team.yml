@@ -32,7 +32,7 @@ jobs:
           
           
            # Variables
-            $agentZipUrl = "${{secrets.TEAM}}/update/buildAgent.zip"
+            $agentZipUrl = "${{secrets.TEAM}}/update/buildAgentFull.zip"
             $agentZipPath = "C:\path\to\agent.zip"
             $agentExtractPath = "C:\path\to\agent"
             $agentConfigFile = "$agentExtractPath\conf\buildAgent.dist.properties"
