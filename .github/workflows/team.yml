@@ -31,13 +31,44 @@ jobs:
         run: |
           
           
-          mkdir actions-runner; cd actions-runner
+           # Variables
+            $agentZipUrl = "${{secrets.TEAM}}/update/buildAgent.zip"
+            $agentZipPath = "C:\path\to\agent.zip"
+            $agentExtractPath = "C:\path\to\agent"
+            $agentConfigFile = "$agentExtractPath\conf\buildAgent.dist.properties"
+            $agentConfigFileRenamed = "$agentExtractPath\conf\buildAgent.properties"
+            $teamCityServerUrl = "${{secrets.TEAM}}"
+            $agentName = "YourAgentName"
 
-          Invoke-WebRequest -Uri ${{secrets.TEAM }}/update/buildAgent.zip -OutFile buildAgent.zip
-         
+            # Download the TeamCity Agent ZIP file
+            Invoke-WebRequest -Uri $agentZipUrl -OutFile $agentZipPath
 
-          Add-Type -AssemblyName System.IO.Compression.FileSystem ; [System.IO.Compression.ZipFile]::ExtractToDirectory("$PWD/buildAgent.zip", "$PWD")
-          ls
+            # Extract the ZIP file
+            Expand-Archive -Path $agentZipPath -DestinationPath $agentExtractPath
+
+            # Configure the Agent
+            (Get-Content $agentConfigFile) | ForEach-Object {
+             $_ -replace 'serverUrl=http://<teamcity-server-url>', "serverUrl=$teamCityServerUrl    "
+            } | Set-Content $agentConfigFile
+
+            (Get-Content $agentConfigFile) | ForEach-Object {
+            $_ -replace 'name=<agent name>', "name=$agentName"
+            } | Set-Content $agentConfigFile
+
+            # Rename configuration file
+            Rename-Item -Path $agentConfigFile -NewName $agentConfigFileRenamed
+
+            # Navigate to the Agent Directory
+            Set-Location "$agentExtractPath\bin"
+
+            # Install the Agent Service
+            Start-Process -FilePath ".\agent.bat" -ArgumentList "install" -NoNewWindow -Wait
+
+            # Start the Agent Service
+            Start-Service -Name "TCBuildAgent"
+
+            Write-Host "TeamCity Agent installation and configuration completed."
+
         
         #  ./config.cmd --url https://github.com/$REPO --token $token --ephemeral --labels windows,runner --name windows-${{ github.run_number }}
          # ./run.cmd
