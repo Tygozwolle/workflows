@@ -50,7 +50,7 @@ jobs:
 
             # Extract the ZIP file
             Expand-Archive -Path $agentZipPath -DestinationPath $agentExtractPath
-
+            ls
             # Configure the Agent
             (Get-Content $agentConfigFile) | ForEach-Object {
              $_ -replace 'serverUrl=http://<teamcity-server-url>', "serverUrl=$teamCityServerUrl    "
@@ -65,7 +65,7 @@ jobs:
             # Navigate to the Agent Directory
             Set-Location "$agentExtractPath\bin"
             Write-Host "Navigated to Agent directory: $agentExtractPath\bin"
-            
+            ls
             #         if (-Not (Test-Path -Path ".\agent.bat")) {
             # Write-Host "Error: agent.bat not found in the directory."
             # exit 1
