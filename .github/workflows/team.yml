@@ -39,7 +39,12 @@ jobs:
             $agentConfigFileRenamed = "$agentExtractPath\conf\buildAgent.properties"
             $teamCityServerUrl = "${{secrets.TEAM}}"
             $agentName = "YourAgentName"
-
+            
+            # Create directory for the agent ZIP file if it doesn't exist
+            $agentDir = Split-Path $agentZipPath -Parent
+            if (-not (Test-Path -Path $agentDir)) {
+            New-Item -Path $agentDir -ItemType Directory
+              }
             # Download the TeamCity Agent ZIP file
             Invoke-WebRequest -Uri $agentZipUrl -OutFile $agentZipPath
 
