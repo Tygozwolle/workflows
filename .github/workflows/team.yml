@@ -10,7 +10,7 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   windowsrunner:
-    timeout-minutes: 5
+    timeout-minutes: 500
     # The type of runner that the job will run on
     runs-on: windows-latest
     env:
@@ -24,20 +24,36 @@ jobs:
       # Runs a single command using the runners shell
       - name: Run a one-line script
         run: echo Hello, world!
-
+      - name: Setup .NET
+      #  if: ${{failure()}}
+        uses: actions/setup-dotnet@v4.0.0
+        with:
+          dotnet-version: 8.0.x
+        # env:
+        #   DOTNET_INSTALL_DIR: "./.dotnet"
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
         shell: pwsh
-        run: |
-          
-          
-          mkdir actions-runner; cd actions-runner
+        run: |  
+          git lfs uninstall
+          # Invoke-WebRequest -Uri https://dot.net/v1/dotnet-install.ps1 -OutFile dotnet-install.ps1
+          # .\dotnet-install.ps1 -Version 8.0 -InstallDir "C:\dotnet"
+          [System.Environment]::SetEnvironmentVariable("PATH", $Env:PATH + ";C:\dotnet", [System.EnvironmentVariableTarget]::Machine)
+          [System.Environment]::SetEnvironmentVariable("DOTNET_ROOT", "C:\dotnet", [System.EnvironmentVariableTarget]::Machine)
 
-          Invoke-WebRequest -Uri ${{secrets.TEAM }}/update/buildAgent.zip -OutFile buildAgent.zip
-         
+          mkdir "C:\path\to\your\Agent_WorkDir"
+          echo "created dir"
+          docker run -d --name teamcity-agent `
+          -e SERVER_URL=${{secrets.TEAM}} `
+          -e AGENT_NAME="windows" `
+          -v "C:\path\to\your\Agent_WorkDir:C:\BuildAgent\work" `
+          jetbrains/teamcity-agent:latest-windowsservercore
+          echo "agent started"
+            docker logs -f teamcity-agent
 
-          Add-Type -AssemblyName System.IO.Compression.FileSystem ; [System.IO.Compression.ZipFile]::ExtractToDirectory("$PWD/buildAgent.zip", "$PWD")
-          ls
-        
-        #  ./config.cmd --url https://github.com/$REPO --token $token --ephemeral --labels windows,runner --name windows-${{ github.run_number }}
-         # ./run.cmd
+            sleep 1000
+      - name: Run a multi-line script
+        if: always()
+        shell: pwsh
+        run: |  
+              docker stop teamcity-agent
