@@ -68,7 +68,7 @@ jobs:
 
             # Start the Agent directly
             Write-Host "Starting TeamCity Agent..."
-            cmd.exe /c "agent.bat run"
+            cmd.exe /c "agent.bat start"
             Write-Host
             # # Navigate to the Agent Directory
             # Set-Location "$agentExtractPath\bin"
