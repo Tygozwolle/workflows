@@ -53,11 +53,11 @@ jobs:
             ls
             # Configure the Agent
             (Get-Content $agentConfigFile) | ForEach-Object {
-             $_ -replace 'serverUrl=http://<teamcity-server-url>', "serverUrl=$teamCityServerUrl    "
+             $_ -replace 'serverUrl=http://localhost:8111/', "serverUrl=$teamCityServerUrl    "
             } | Set-Content $agentConfigFile
 
             (Get-Content $agentConfigFile) | ForEach-Object {
-            $_ -replace 'name=<agent name>', "name=$agentName"
+            $_ -replace 'name=', "name=$agentName"
             } | Set-Content $agentConfigFile
 
             # Rename configuration file
