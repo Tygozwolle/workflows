@@ -54,9 +54,9 @@ jobs:
             ls
             # Configure the Agent
             (Get-Content $agentConfigFile) | ForEach-Object {
-             $_ -replace 'serverUrl=http://localhost:8111/', "serverUrl=$teamCityServerUrl \n agentKey=$agentKey   "
+             $_ -replace 'serverUrl=http://localhost:8111/', "serverUrl=$teamCityServerUrl    "
             } | Set-Content $agentConfigFile
-
+              # \n agentKey=$agentKey
             (Get-Content $agentConfigFile) | ForEach-Object {
             $_ -replace 'name=', "name=$agentName"
             } | Set-Content $agentConfigFile
