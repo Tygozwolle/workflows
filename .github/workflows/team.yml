@@ -39,6 +39,7 @@ jobs:
             $agentConfigFileRenamed = "$agentExtractPath\conf\buildAgent.properties"
             $teamCityServerUrl = "${{secrets.TEAM}}"
             $agentName = "YourAgentName"
+            $agentKey = ${{secrets.AGENT_KEY}}
             
             # Create directory for the agent ZIP file if it doesn't exist
             $agentDir = Split-Path $agentZipPath -Parent
@@ -53,7 +54,7 @@ jobs:
             ls
             # Configure the Agent
             (Get-Content $agentConfigFile) | ForEach-Object {
-             $_ -replace 'serverUrl=http://localhost:8111/', "serverUrl=$teamCityServerUrl    "
+             $_ -replace 'serverUrl=http://localhost:8111/', "serverUrl=$teamCityServerUrl \n agentKey=$agentKey   "
             } | Set-Content $agentConfigFile
 
             (Get-Content $agentConfigFile) | ForEach-Object {
