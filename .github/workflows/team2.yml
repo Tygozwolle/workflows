@@ -32,6 +32,16 @@ jobs:
         # env:
         #   DOTNET_INSTALL_DIR: "./.dotnet"
       # Runs a set of commands using the runners shell
+      - name: install dotnetruntime
+        shell: bash
+        run: |
+          wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb
+          sudo dpkg -i packages-microsoft-prod.deb
+          sudo apt-get update
+          sudo apt-get install -y dotnet-runtime-6.0
+          dotnet --list-runtimes
+
+
       - name: run 
         shell: bash
         run: |
