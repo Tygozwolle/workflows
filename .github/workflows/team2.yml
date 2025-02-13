@@ -35,7 +35,7 @@ jobs:
       - name: run 
         shell: bash
         run: |
-          agentZipUrl="${{secrets.TEAM}}/update/buildAgentFull.zip"
+          agentZipUrl="${{secrets.TEAM}}/update/buildAgent.zip #buildAgentFull.zip"
           agentZipPath="/home/to/agent.zip"
           agentExtractPath="/home/to/agent"
           agentConfigFile="$agentExtractPath/conf/buildAgent.dist.properties"
