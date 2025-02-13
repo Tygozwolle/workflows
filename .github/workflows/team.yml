@@ -34,26 +34,105 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
         shell: pwsh
-        run: |  
-          git lfs uninstall
-          # Invoke-WebRequest -Uri https://dot.net/v1/dotnet-install.ps1 -OutFile dotnet-install.ps1
-          # .\dotnet-install.ps1 -Version 8.0 -InstallDir "C:\dotnet"
-          [System.Environment]::SetEnvironmentVariable("PATH", $Env:PATH + ";C:\dotnet", [System.EnvironmentVariableTarget]::Machine)
-          [System.Environment]::SetEnvironmentVariable("DOTNET_ROOT", "C:\dotnet", [System.EnvironmentVariableTarget]::Machine)
 
-          mkdir "C:\path\to\your\Agent_WorkDir"
-          echo "created dir"
-          docker run -d --name teamcity-agent `
-          -e SERVER_URL=${{secrets.TEAM}} `
-          -e AGENT_NAME="windows" `
-          -v "C:\path\to\your\Agent_WorkDir:C:\BuildAgent\work" `
-          jetbrains/teamcity-agent:latest-windowsservercore
-          echo "agent started"
-            docker logs -f teamcity-agent
+        run: |
+          
+          
+           # Variables
+            $agentZipUrl = "${{secrets.TEAM}}/update/buildAgentFull.zip"
+            $agentZipPath = "C:\path\to\agent.zip"
+            $agentExtractPath = "C:\path\to\agent"
+            $agentConfigFile = "$agentExtractPath\conf\buildAgent.dist.properties"
+            $agentConfigFileRenamed = "$agentExtractPath\conf\buildAgent.properties"
+            $teamCityServerUrl = "${{secrets.TEAM}}"
+            $agentName = "YourAgentName"
+            $agentKey = ${{secrets.AGENT_KEY}}
+            
+            # Create directory for the agent ZIP file if it doesn't exist
+            $agentDir = Split-Path $agentZipPath -Parent
+            if (-not (Test-Path -Path $agentDir)) {
+            New-Item -Path $agentDir -ItemType Directory
+              }
+            # Download the TeamCity Agent ZIP file
+            Invoke-WebRequest -Uri $agentZipUrl -OutFile $agentZipPath
 
-            sleep 1000
-      - name: Run a multi-line script
-        if: always()
-        shell: pwsh
-        run: |  
-              docker stop teamcity-agent
+            # Extract the ZIP file
+            Expand-Archive -Path $agentZipPath -DestinationPath $agentExtractPath
+            ls
+            # Configure the Agent
+            (Get-Content $agentConfigFile) | ForEach-Object {
+             $_ -replace 'serverUrl=http://localhost:8111/', "serverUrl=$teamCityServerUrl    "
+            } | Set-Content $agentConfigFile
+              # \n agentKey=$agentKey
+            (Get-Content $agentConfigFile) | ForEach-Object {
+            $_ -replace 'name=', "name=$agentName"
+            } | Set-Content $agentConfigFile
+
+            echo 'auto_authorize=true' >> $agentConfigFile
+            echo agentKey=$agentKey >> $agentConfigFile
+            echo agent_pool_name=windows >> $agentConfigFile
+            
+            # Rename configuration file
+            Rename-Item -Path $agentConfigFile -NewName $agentConfigFileRenamed
+            # Navigate to the Agent Directory
+            Set-Location "$agentExtractPath\bin"
+            Write-Host "Navigated to Agent directory: $agentExtractPath\bin"
+            ls
+            #         if (-Not (Test-Path -Path ".\agent.bat")) {
+            # Write-Host "Error: agent.bat not found in the directory."
+            # exit 1
+            # }
+            # Write-Host "Starting TeamCity Agent..."
+            # $processInfo = New-Object System.Diagnostics.ProcessStartInfo
+            # $processInfo.FileName = "cmd.exe"
+            # $processInfo.Arguments = "/c agent.bat start"
+            # $processInfo.RedirectStandardOutput = $true
+            # $processInfo.RedirectStandardError = $true
+            # $processInfo.UseShellExecute = $false
+            # $processInfo.CreateNoWindow = $true
+
+            # $process = New-Object System.Diagnostics.Process
+            # $process.StartInfo = $processInfo
+            # $process.Start() | Out-Null
+
+            # # Print the output from agent.bat in real-time
+            # $stdoutReader = $process.StandardOutput
+            # $stderrReader = $process.StandardError
+
+            # while (!$stdoutReader.EndOfStream -or !$stderrReader.EndOfStream) {
+            #     if (!$stdoutReader.EndOfStream) {
+            #         Write-Host $stdoutReader.ReadLine()
+            #     }
+            #     if (!$stderrReader.EndOfStream) {
+            #         Write-Host $stderrReader.ReadLine()
+            #     }
+            # }
+
+             # $process.WaitForExit()
+            Write-Host "exit."
+            # Start the Agent directly
+            Write-Host "Starting TeamCity Agent..."
+            cmd.exe /c "agent.bat start"
+            Write-Host
+            
+            # # Navigate to the Agent Directory
+            # Set-Location "$agentExtractPath\bin"
+
+            # # Install the Agent Service
+            # Start-Process -FilePath ".\agent.bat" -ArgumentList "install" -NoNewWindow -Wait
+
+            # # Start the Agent in a new console window
+            # Start-Process -FilePath ".\agent.bat" -ArgumentList "start" -NoNewWindow
+
+            # Write-Host "TeamCity Agent installation and configuration completed."
+             # sleep 86400
+             $totalSeconds = 86400
+              for ($i = 0; $i -lt $totalSeconds; $i += 60) {
+              Start-Sleep -Seconds 60
+              $remainingTime = ($totalSeconds - $i - 60) / 60
+                Write-Host "$remainingTime minutes remaining."
+                }
+        
+        #  ./config.cmd --url https://github.com/$REPO --token $token --ephemeral --labels windows,runner --name windows-${{ github.run_number }}
+         # ./run.cmd
+
