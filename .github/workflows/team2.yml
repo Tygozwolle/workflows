@@ -95,7 +95,7 @@ jobs:
 
           sleep 1000
       - name: Run a multi-line script
-        if: always()
+        if: false #always()
         shell: bash
         run: |  
           docker stop teamcity-agent
