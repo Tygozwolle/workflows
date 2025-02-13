@@ -41,6 +41,7 @@ jobs:
           docker run -d --name teamcity-agent \
           -e SERVER_URL=${{secrets.TEAM}} \
           -e AGENT_NAME="linux" \
+          -e AGENT_KEY="${{secrets.AGENT_KEY}}" \
           -v /path/to/your/Agent_WorkDir:/BuildAgent/work \
           jetbrains/teamcity-agent:latest
           echo "agent started"
