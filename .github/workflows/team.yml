@@ -60,7 +60,8 @@ jobs:
             (Get-Content $agentConfigFile) | ForEach-Object {
             $_ -replace 'name=', "name=$agentName"
             } | Set-Content $agentConfigFile
-            
+
+            echo 'auto_authorize=true' >> $agentConfigFile
             echo 'agentKey=$agentKey' >> $agentConfigFile
             
             # Rename configuration file
