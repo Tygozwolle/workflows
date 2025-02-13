@@ -36,8 +36,8 @@ jobs:
         shell: bash
         run: |
           agentZipUrl="${{secrets.TEAM}}/update/buildAgentFull.zip"
-          agentZipPath="/path/to/agent.zip"
-          agentExtractPath="/path/to/agent"
+          agentZipPath="/home/to/agent.zip"
+          agentExtractPath="/home/to/agent"
           agentConfigFile="$agentExtractPath/conf/buildAgent.dist.properties"
           agentConfigFileRenamed="$agentExtractPath/conf/buildAgent.properties"
           teamCityServerUrl="${{secrets.TEAM}}"
