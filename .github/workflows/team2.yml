@@ -77,7 +77,7 @@ jobs:
           echo "Starting TeamCity Agent..."
           ./agent.sh run
       - name: Run a multi-line script
-        if: never
+        if: false
         shell: bash
         run: |  
 
