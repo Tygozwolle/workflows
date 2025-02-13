@@ -35,13 +35,13 @@ jobs:
       - name: run 
         shell: bash
         run: |
-          agentZipUrl="${{secrets.TEAM}}/update/buildAgent.zip" #buildAgentFull.zip
+          agentZipUrl="${{secrets.TEAM}}/update/buildAgentFull.zip"
           agentZipPath="/home/to/agent.zip"
           agentExtractPath="/home/to/agent"
           agentConfigFile="$agentExtractPath/conf/buildAgent.dist.properties"
           agentConfigFileRenamed="$agentExtractPath/conf/buildAgent.properties"
           teamCityServerUrl="${{secrets.TEAM}}"
-          agentName="YourAgentName"
+          agentName="linux"
           agentKey=${{secrets.AGENT_KEY}}
 
           # Create directory for the agent ZIP file if it doesn't exist
