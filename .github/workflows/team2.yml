@@ -3,7 +3,7 @@ name: team2
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
- # push:
+  push:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -32,7 +32,52 @@ jobs:
         # env:
         #   DOTNET_INSTALL_DIR: "./.dotnet"
       # Runs a set of commands using the runners shell
+      - name: run 
+        shell: bash
+        run: |
+          agentZipUrl="${TEAM}/update/buildAgentFull.zip"
+          agentZipPath="/path/to/agent.zip"
+          agentExtractPath="/path/to/agent"
+          agentConfigFile="$agentExtractPath/conf/buildAgent.dist.properties"
+          agentConfigFileRenamed="$agentExtractPath/conf/buildAgent.properties"
+          teamCityServerUrl="${TEAM}"
+          agentName="YourAgentName"
+          agentKey="${AGENT_KEY}"
+
+          # Create directory for the agent ZIP file if it doesn't exist
+          agentDir=$(dirname "$agentZipPath")
+          if [ ! -d "$agentDir" ]; then
+          mkdir -p "$agentDir"
+          fi
+
+          # Download the TeamCity Agent ZIP file
+          curl -o "$agentZipPath" "$agentZipUrl"
+
+          # Extract the ZIP file
+          unzip -o "$agentZipPath" -d "$agentExtractPath"
+          ls "$agentExtractPath"
+
+          # Configure the Agent
+          sed -i "s|serverUrl=http://localhost:8111/|serverUrl=$teamCityServerUrl|g" "$agentConfigFile"
+          sed -i "s|name=|name=$agentName|g" "$agentConfigFile"
+
+          echo "auto_authorize=true" >> "$agentConfigFile"
+          echo "agentKey=$agentKey" >> "$agentConfigFile"
+          echo "agent_pool_name=linux" >> "$agentConfigFile"
+
+          # Rename configuration file
+          mv "$agentConfigFile" "$agentConfigFileRenamed"
+
+          # Navigate to the Agent Directory
+          cd "$agentExtractPath/bin"
+          echo "Navigated to Agent directory: $agentExtractPath/bin"
+          ls
+
+          # Start the Agent directly
+          echo "Starting TeamCity Agent..."
+          ./agent.sh run
       - name: Run a multi-line script
+        if: never
         shell: bash
         run: |  
 
