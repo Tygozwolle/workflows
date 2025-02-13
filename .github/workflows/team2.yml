@@ -47,7 +47,7 @@ jobs:
           # Create directory for the agent ZIP file if it doesn't exist
           agentDir=$(dirname "$agentZipPath")
           if [ ! -d "$agentDir" ]; then
-          mkdir -p "$agentDir"
+          sudo mkdir -p "$agentDir"
           fi
 
           # Download the TeamCity Agent ZIP file
