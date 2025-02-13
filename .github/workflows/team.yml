@@ -63,7 +63,7 @@ jobs:
 
             echo 'auto_authorize=true' >> $agentConfigFile
             echo agentKey=$agentKey >> $agentConfigFile
-            echo agent.pool.name=windows >> $agentConfigFile
+            echo agent_pool_name=windows >> $agentConfigFile
             
             # Rename configuration file
             Rename-Item -Path $agentConfigFile -NewName $agentConfigFileRenamed
