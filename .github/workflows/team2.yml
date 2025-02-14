@@ -53,6 +53,7 @@ jobs:
           teamCityServerUrl="${{secrets.TEAM}}"
           agentName="linux"
           agentKey=${{secrets.AGENT_KEY}}
+          jobId=${{github.run_id}}
 
           # Create directory for the agent ZIP file if it doesn't exist
           agentDir=$(dirname "$agentZipPath")
@@ -74,7 +75,7 @@ jobs:
           echo "auto_authorize=true" >> "$agentConfigFile"
           echo "agentKey=$agentKey" >> "$agentConfigFile"
           echo "agent_pool_name=linux" >> "$agentConfigFile"
-          echo "job_id=${{ github.run_id }} >> "$agentConfigFile"
+          echo "job_id=${{ github.run_id }}" >> "$agentConfigFile"
 
           # Rename configuration file
           mv "$agentConfigFile" "$agentConfigFileRenamed"
