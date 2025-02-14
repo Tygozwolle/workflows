@@ -106,7 +106,18 @@ jobs:
 
           sleep 1000
       - name: Run a multi-line script
-        if: false #always()
+        if: always()
         shell: bash
         run: |  
-          docker stop teamcity-agent
+          agentZipUrl="${{secrets.TEAM}}/update/buildAgentFull.zip"
+          agentZipPath="/home/to/agent.zip"
+          agentExtractPath="/home/to/agent"
+          agentConfigFile="$agentExtractPath/conf/buildAgent.dist.properties"
+          agentConfigFileRenamed="$agentExtractPath/conf/buildAgent.properties"
+          teamCityServerUrl="${{secrets.TEAM}}"
+          agentName="linux"
+          agentKey=${{secrets.AGENT_KEY}}
+          cd "$agentExtractPath/bin"
+           ./agent.sh stop
+          # docker stop teamcity-agent
+          
