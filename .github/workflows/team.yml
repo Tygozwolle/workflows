@@ -49,6 +49,7 @@ jobs:
             $agentName = "YourAgentName"
             $agentKey = ${{secrets.AGENT_KEY}}
             
+            
             # Create directory for the agent ZIP file if it doesn't exist
             $agentDir = Split-Path $agentZipPath -Parent
             if (-not (Test-Path -Path $agentDir)) {
@@ -72,6 +73,7 @@ jobs:
             echo 'auto_authorize=true' >> $agentConfigFile
             echo agentKey=$agentKey >> $agentConfigFile
             echo agent_pool_name=windows >> $agentConfigFile
+            echo "job_id=${{ github.run_id }}" >> "$agentConfigFile"
             
             # Rename configuration file
             Rename-Item -Path $agentConfigFile -NewName $agentConfigFileRenamed
