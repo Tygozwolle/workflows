@@ -142,14 +142,14 @@ jobs:
         if: always()
         shell: pwsh
         run: |  
-          agentZipUrl="${{secrets.TEAM}}/update/buildAgentFull.zip"
-          agentZipPath="/home/to/agent.zip"
-          agentExtractPath="/home/to/agent"
-          agentConfigFile="$agentExtractPath/conf/buildAgent.dist.properties"
-          agentConfigFileRenamed="$agentExtractPath/conf/buildAgent.properties"
-          teamCityServerUrl="${{secrets.TEAM}}"
-          #agentName="linux"
-          agentKey=${{secrets.AGENT_KEY}}
-          cd "$agentExtractPath/bin"
-           ./agent.sh stop
+          $agentZipUrl = "${{secrets.TEAM}}/update/buildAgentFull.zip"
+            $agentZipPath = "C:\path\to\agent.zip"
+            $agentExtractPath = "C:\path\to\agent"
+            $agentConfigFile = "$agentExtractPath\conf\buildAgent.dist.properties"
+            $agentConfigFileRenamed = "$agentExtractPath\conf\buildAgent.properties"
+            $teamCityServerUrl = "${{secrets.TEAM}}"
+            $agentName = "YourAgentName"
+            $agentKey = ${{secrets.AGENT_KEY}}
+          Set-Location "$agentExtractPath\bin"
+           cmd.exe /c "agent.bat stop"
            sleep 30
