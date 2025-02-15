@@ -138,4 +138,18 @@ jobs:
         
         #  ./config.cmd --url https://github.com/$REPO --token $token --ephemeral --labels windows,runner --name windows-${{ github.run_number }}
          # ./run.cmd
-
+      - name: Run a multi-line script
+        if: always()
+        shell: pwsh
+        run: |  
+          agentZipUrl="${{secrets.TEAM}}/update/buildAgentFull.zip"
+          agentZipPath="/home/to/agent.zip"
+          agentExtractPath="/home/to/agent"
+          agentConfigFile="$agentExtractPath/conf/buildAgent.dist.properties"
+          agentConfigFileRenamed="$agentExtractPath/conf/buildAgent.properties"
+          teamCityServerUrl="${{secrets.TEAM}}"
+          #agentName="linux"
+          agentKey=${{secrets.AGENT_KEY}}
+          cd "$agentExtractPath/bin"
+           ./agent.sh stop
+           sleep 30
