@@ -29,7 +29,12 @@ jobs:
       #  if: ${{failure()}}
         uses: actions/setup-dotnet@v4.0.0
         with:
-          dotnet-version: 8.0.x
+          dotnet-version: "8.0.x"
+      - name: Setup .NET
+      #  if: ${{failure()}}
+        uses: actions/setup-dotnet@v4.0.0
+        with:
+          dotnet-version: "3.1.x"
         # env:
         #   DOTNET_INSTALL_DIR: "./.dotnet"
       # Runs a set of commands using the runners shell
