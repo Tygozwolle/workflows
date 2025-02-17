@@ -121,6 +121,6 @@ jobs:
           agentKey=${{secrets.AGENT_KEY}}
           cd "$agentExtractPath/bin"
            ./agent.sh stop
-           sleep 30
+           sleep 10
           # docker stop teamcity-agent
           
