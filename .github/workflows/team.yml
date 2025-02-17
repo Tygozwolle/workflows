@@ -157,4 +157,4 @@ jobs:
             $agentKey = ${{secrets.AGENT_KEY}}
           Set-Location "$agentExtractPath\bin"
            cmd.exe /c "agent.bat stop"
-           sleep 30
+           sleep 10
