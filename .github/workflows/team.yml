@@ -13,7 +13,7 @@ jobs:
   windowsrunner:
     timeout-minutes: 500
     # The type of runner that the job will run on
-    runs-on: windows-latest
+    runs-on: windows-2022
     env:
      GH_TOKEN: ${{ secrets.TOKEN }}
 
