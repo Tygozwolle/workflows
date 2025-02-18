@@ -89,7 +89,13 @@ jobs:
           dotnet-version: 8.0.x
         env:
           DOTNET_INSTALL_DIR: "./.dotnet"
-      
+      - name: Setup .NET
+      #  if: ${{failure()}}
+        uses: actions/setup-dotnet@v4.3.0
+        with:
+          dotnet-version: 9.0.x
+        env:
+          DOTNET_INSTALL_DIR: "./.dotnet"
       - name: Restore dependencies
         continue-on-error: true
        # if: ${{failure()}}
@@ -186,7 +192,13 @@ jobs:
           dotnet-version: 8.0.x
         env:
           DOTNET_INSTALL_DIR: "./.dotnet"
-      
+      - name: Setup .NET
+      #  if: ${{failure()}}
+        uses: actions/setup-dotnet@v4.3.0
+        with:
+          dotnet-version: 9.0.x
+        env:
+          DOTNET_INSTALL_DIR: "./.dotnet"
       - name: Restore dependencies
         run: dotnet restore
       - name: Build
