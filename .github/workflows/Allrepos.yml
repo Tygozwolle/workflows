@@ -22,6 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
      GH_TOKEN: ${{ secrets.TOKEN }}
+     RUNNERV: "2.321.0"
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -45,8 +46,8 @@ jobs:
           token=$(echo $response | jq -r .token)
           
           mkdir actions-runner && cd actions-runner
-          curl -o actions-runner-linux-x64-2.321.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.321.0/actions-runner-linux-x64-2.321.0.tar.gz
-          echo "ba46ba7ce3a4d7236b16fbe44419fb453bc08f866b24f04d549ec89f1722a29e  actions-runner-linux-x64-2.321.0.tar.gz" | shasum -a 256 -c
-          tar xzf ./actions-runner-linux-x64-2.321.0.tar.gz
+          curl -o actions-runner-linux-x64-$RUNNERV.tar.gz -L https://github.com/actions/runner/releases/download/v$RUNNERV/actions-runner-linux-x64-$RUNNERV.tar.gz
+          # echo "ba46ba7ce3a4d7236b16fbe44419fb453bc08f866b24f04d549ec89f1722a29e  actions-runner-linux-x64-2.321.0.tar.gz" | shasum -a 256 -c
+          tar xzf ./actions-runner-linux-x64-$RUNNERV.tar.gz
           ./config.sh --url https://github.com/$REPO --token $token --ephemeral --labels runner --name $(basename $(dirname $(dirname $(dirname $(pwd)))))-${{ github.run_number }}
           ./run.sh
